@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "873826266571",
+    "firebase_url": "https://shop-app-bbcbf.firebaseio.com",
+    "project_id": "shop-app-bbcbf",
+    "storage_bucket": "shop-app-bbcbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873826266571:android:624f16f8dabc6df1c71a4e",
+        "android_client_info": {
+          "package_name": "com.hosnydevtest.shopapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873826266571-69ftnl1cglmr6cnn8b2mlt037id9k6fh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFg_ThuyjhZoGoWb78NK6-kRGnhCDPuLs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873826266571-69ftnl1cglmr6cnn8b2mlt037id9k6fh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
