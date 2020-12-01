@@ -12,4 +12,8 @@
     <string name="sign_up">Sign up</string>
     <string name="create_new_account">Create New Account..</string>
     <string name="login">Login</string>
+    <string name="home">Home</string>
+    <string name="offers">Offers</string>
+    <string name="orders">Orders</string>
+    <string name="profile">Profile</string>
 </resources>
