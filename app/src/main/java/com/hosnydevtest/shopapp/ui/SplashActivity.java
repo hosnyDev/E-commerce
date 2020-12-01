@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.view.WindowManager;
 
 import com.hosnydevtest.shopapp.R;
+import com.hosnydevtest.shopapp.ui.auth.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -20,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this,LoginActivity.class));
+                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 finish();
             }
         },2000);
