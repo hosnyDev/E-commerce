@@ -16,4 +16,6 @@
     <string name="offers">Offers</string>
     <string name="orders">Orders</string>
     <string name="profile">Profile</string>
+    <string name="shop_now_it_s_faster">Shop now \nIt\'s faster</string>
+    <string name="search_in_our_category">Search in our category</string>
 </resources>
