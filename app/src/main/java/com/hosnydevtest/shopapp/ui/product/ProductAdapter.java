@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.hosnydevtest.shopapp.R;
 import com.hosnydevtest.shopapp.model.ProductModel;
+import com.hosnydevtest.shopapp.ui.ConfirmInfoActivity;
 import com.hosnydevtest.shopapp.ui.DetailsProductActivity;
 
 import java.util.ArrayList;
@@ -53,15 +54,25 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             Intent intent = new Intent(context, DetailsProductActivity.class);
 
             intent.putExtra("name", list.get(position).getName());
-                intent.putExtra("image1", list.get(position).getImage1());
+            intent.putExtra("image1", list.get(position).getImage1());
             intent.putExtra("image2", list.get(position).getImage2());
             intent.putExtra("image3", list.get(position).getImage3());
             intent.putExtra("details", list.get(position).getDetails());
             intent.putExtra("price", list.get(position).getPrice());
+            intent.putExtra("logo", list.get(position).getLogo());
 
             context.startActivity(intent);
 
 
+        });
+
+        holder.btnBuy.setOnClickListener(v -> {
+            Intent intent2 = new Intent(context, ConfirmInfoActivity.class);
+            intent2.putExtra("name", list.get(position).getName());
+            intent2.putExtra("details", list.get(position).getDetails());
+            intent2.putExtra("price", list.get(position).getPrice());
+            intent2.putExtra("logo", list.get(position).getLogo());
+            context.startActivity(intent2);
         });
 
     }

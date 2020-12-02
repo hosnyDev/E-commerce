@@ -21,5 +21,9 @@
     <string name="Searchinourproducts">Search in our products</string>
     <string name="details">details</string>
     <string name="buy">Buy</string>
-    <string name="buy">Buy</string>
+    <string name="products_has_50_sale">Products has \n50% sale</string>
+    <string name="confirm_your_infromation">Confirm \nYour Infromation</string>
+    <string name="address">Address</string>
+    <string name="update_info">Update info</string>
+    <string name="next">Next</string>
 </resources>

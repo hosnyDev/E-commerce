@@ -36,6 +36,7 @@ public class DetailsProductActivity extends AppCompatActivity {
         String image2 = intent.getStringExtra("image2");
         String image3 = intent.getStringExtra("image3");
         String details = intent.getStringExtra("details");
+        String logo = intent.getStringExtra("logo");
         int price = intent.getIntExtra("price", 0);
 
 
@@ -48,6 +49,17 @@ public class DetailsProductActivity extends AppCompatActivity {
         edPrice.setText(String.valueOf(price));
 
         setSliderImage(image1, image2, image3);
+
+        findViewById(R.id.btn_buy).setOnClickListener(v -> {
+
+            Intent intent2 = new Intent(this, ConfirmInfoActivity.class);
+            intent2.putExtra("name", name);
+            intent2.putExtra("details", details);
+            intent2.putExtra("price", price);
+            intent2.putExtra("logo", logo);
+            startActivity(intent2);
+
+        });
 
     }
 
