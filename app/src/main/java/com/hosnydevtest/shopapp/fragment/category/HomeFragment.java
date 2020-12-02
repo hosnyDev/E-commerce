@@ -86,6 +86,7 @@ public class HomeFragment extends Fragment {
         );
 
         refreshLayout.setOnRefreshListener(() -> {
+            list.clear();
             getCategoryData(1);
         });
 

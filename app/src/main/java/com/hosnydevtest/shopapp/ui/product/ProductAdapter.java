@@ -1,4 +1,4 @@
-package com.hosnydevtest.shopapp.fragment.category;
+package com.hosnydevtest.shopapp.ui.product;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,25 +11,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.hosnydevtest.shopapp.R;
-import com.hosnydevtest.shopapp.model.CategoryModel;
-import com.hosnydevtest.shopapp.ui.product.ProductActivity;
+import com.hosnydevtest.shopapp.model.ProductModel;
+import com.hosnydevtest.shopapp.ui.DetailsProductActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>
         implements Filterable {
 
     private Context context;
-    private List<CategoryModel> list;
-    private List<CategoryModel> listFilter;
+    private List<ProductModel> list;
+    private List<ProductModel> listFilter;
 
-    public CategoryAdapter(Context context, List<CategoryModel> list) {
+    public ProductAdapter(Context context, List<ProductModel> list) {
         this.context = context;
         this.list = list;
         listFilter = list;
@@ -38,23 +37,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_format, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.format_product, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.setName(list.get(position).getName());
-        holder.setImage(list.get(position).getImage());
+        holder.setPrice(list.get(position).getPrice());
+        holder.setLogo(list.get(position).getLogo());
 
-        holder.btn_category_item.setOnClickListener(v -> {
+        holder.btnDetails.setOnClickListener(v -> {
 
-            Intent intent = new Intent(context, ProductActivity.class);
+            Intent intent = new Intent(context, DetailsProductActivity.class);
 
-            intent.putExtra("id",list.get(position).getId());
-            intent.putExtra("name",list.get(position).getName());
+            intent.putExtra("name", list.get(position).getName());
+                intent.putExtra("image1", list.get(position).getImage1());
+            intent.putExtra("image2", list.get(position).getImage2());
+            intent.putExtra("image3", list.get(position).getImage3());
+            intent.putExtra("details", list.get(position).getDetails());
+            intent.putExtra("price", list.get(position).getPrice());
 
             context.startActivity(intent);
+
 
         });
 
@@ -68,27 +74,36 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageView;
-        private TextView textView;
-        private CardView btn_category_item;
+        private ImageView productImage;
+        private TextView productName, productPrice;
+
+        private TextView btnDetails, btnBuy;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.category_image_item);
-            textView = itemView.findViewById(R.id.category_name_item);
-            btn_category_item = itemView.findViewById(R.id.btn_category_item);
+            productImage = itemView.findViewById(R.id.image_product_item);
+            productName = itemView.findViewById(R.id.name_product_item);
+            productPrice = itemView.findViewById(R.id.price_product_item);
+
+            btnDetails = itemView.findViewById(R.id.details_product_item);
+            btnBuy = itemView.findViewById(R.id.buy_product_item);
+
         }
 
         private void setName(String name) {
-            textView.setText(name);
+            productName.setText(name);
         }
 
-        private void setImage(String url) {
+        private void setPrice(int price) {
+            productPrice.setText(price + "LE");
+        }
+
+        private void setLogo(String url) {
             Glide.with(context)
                     .load(url)
                     .centerCrop()
                     .placeholder(R.drawable.placeholder_product)
-                    .into(imageView);
+                    .into(productImage);
         }
 
 
@@ -111,15 +126,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
             } else {
 
-                List<CategoryModel> categoryModels = new ArrayList<>();
+                List<ProductModel> ProductModels = new ArrayList<>();
 
-                for (CategoryModel model : listFilter) {
+                for (ProductModel model : listFilter) {
 
                     if (model.getName().toLowerCase().contains(filterSearch)) {
-                        categoryModels.add(model);
+                        ProductModels.add(model);
                     }
                 }
-                list = categoryModels;
+                list = ProductModels;
             }
 
             FilterResults filterResults = new FilterResults();
@@ -131,7 +146,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            list = (ArrayList<CategoryModel>) results.values;
+            list = (ArrayList<ProductModel>) results.values;
             notifyDataSetChanged();
 
         }
