@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,16 +16,20 @@ import com.bumptech.glide.Glide;
 import com.hosnydevtest.shopapp.R;
 import com.hosnydevtest.shopapp.model.CategoryModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
+        implements Filterable {
 
     private Context context;
     private List<CategoryModel> list;
+    private List<CategoryModel> listFilter;
 
     public CategoryAdapter(Context context, List<CategoryModel> list) {
         this.context = context;
         this.list = list;
+        listFilter = list;
     }
 
     @NonNull
@@ -43,6 +49,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public int getItemCount() {
         return list.size();
     }
+
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -69,5 +76,48 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
 
     }
+
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    private final Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            String filterSearch = constraint.toString().toLowerCase().trim();
+
+            if (filterSearch.isEmpty()) {
+
+                list = listFilter;
+
+            } else {
+
+                List<CategoryModel> categoryModels = new ArrayList<>();
+
+                for (CategoryModel model : listFilter) {
+
+                    if (model.getName().toLowerCase().contains(filterSearch)) {
+                        categoryModels.add(model);
+                    }
+                }
+                list = categoryModels;
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = list;
+
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+
+            list = (ArrayList<CategoryModel>) results.values;
+            notifyDataSetChanged();
+
+        }
+    };
 
 }

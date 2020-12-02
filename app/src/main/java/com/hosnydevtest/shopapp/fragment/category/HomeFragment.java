@@ -1,19 +1,19 @@
 package com.hosnydevtest.shopapp.fragment.category;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -27,8 +27,7 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-    private EditText search_category;
-    private RecyclerView recyclerView;
+    private SwipeRefreshLayout refreshLayout;
     private ProgressBar progressBar;
 
     private CategoryAdapter adapter;
@@ -51,9 +50,10 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        search_category = view.findViewById(R.id.search_category);
-        recyclerView = view.findViewById(R.id.recycler_category);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_category);
+        SearchView searchView = view.findViewById(R.id.search_category);
         progressBar = view.findViewById(R.id.progress_category);
+        refreshLayout = view.findViewById(R.id.swipe_category);
 
         firestore = FirebaseFirestore.getInstance();
 
@@ -61,15 +61,39 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         list = new ArrayList<>();
-        adapter =new CategoryAdapter(getActivity(),list);
+        adapter = new CategoryAdapter(getActivity(), list);
         recyclerView.setAdapter(adapter);
 
-        getCategoryData();
+        getCategoryData(0);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        refreshLayout.setColorSchemeColors(
+                getResources().getColor(R.color.colorPrimary),
+                getResources().getColor(R.color.colorAccent),
+                getResources().getColor(R.color.colorPrimaryDark)
+        );
+
+        refreshLayout.setOnRefreshListener(() -> {
+            getCategoryData(1);
+        });
+
 
     }
 
 
-    private void getCategoryData() {
+    private void getCategoryData(int stateSwipe) {
 
         progressBar.setVisibility(View.VISIBLE);
 
@@ -79,9 +103,9 @@ public class HomeFragment extends Fragment {
 
                     if (e == null) {
 
-                        if (value !=null){
+                        if (value != null) {
 
-                            for (DocumentChange documentChange : value.getDocumentChanges() ){
+                            for (DocumentChange documentChange : value.getDocumentChanges()) {
 
                                 CategoryModel categoryModel = documentChange.getDocument().toObject(CategoryModel.class);
                                 list.add(categoryModel);
@@ -90,8 +114,10 @@ public class HomeFragment extends Fragment {
                             }
 
                             progressBar.setVisibility(View.GONE);
+                            if (stateSwipe == 1)
+                                refreshLayout.setRefreshing(false);
 
-                        }else {
+                        } else {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), "Data is Empty", Toast.LENGTH_SHORT).show();
                         }
