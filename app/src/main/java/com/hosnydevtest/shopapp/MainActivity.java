@@ -1,20 +1,17 @@
 package com.hosnydevtest.shopapp;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView title;
-    private BottomNavigationView bottomNavigationView;
 
     private NavController navController;
 
@@ -24,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         title = findViewById(R.id.title);
-        bottomNavigationView=findViewById(R.id.nav);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.nav);
 
         navController=Navigation.findNavController(this,R.id.nav_host_fragment);
 
